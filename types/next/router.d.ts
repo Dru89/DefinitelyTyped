@@ -53,9 +53,12 @@ export interface SingletonRouter {
     onRouteChangeError?(error: any, url: string): void;
 }
 
-export function withRouter<T extends {}>(
-    Component: React.ComponentType<T & { router: SingletonRouter }>,
-): React.ComponentType<T>;
-
 export const Singleton: SingletonRouter;
 export default Singleton;
+
+// These two have to be declared separately in order to make decorators work.
+// Otherwise, `withRouter` assumes it could be applied to a `StatelessComponent`
+// and TypeScript docs state that decorators can only be applied to classes or class
+// members (not on functions).
+export function withRouter<TProps extends {}>(Component: React.ComponentClass<TProps & {router: SingletonRouter}>): React.ComponentClass<TProps>;
+export function withRouter<TProps extends {}>(Component: React.StatelessComponent<TProps & {router: SingletonRouter}>): React.ComponentType<TProps>;

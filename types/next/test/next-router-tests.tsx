@@ -74,4 +74,31 @@ Router.prefetch("/route").then(Component => {
     const element = <Component />;
 });
 
-r.withRouter(props => <div />);
+r.withRouter((props: {router: r.SingletonRouter}) => <div />);
+
+class UnwrappedComponent extends React.Component<{ name: string, router: r.SingletonRouter }> {
+    render() {
+        return <div data-router={this.props.router} id={this.props.name} />
+    }
+}
+
+// TODO: Passing the `<{ name: string }>` here is annoying, but otherwise
+// TypeScript thinks the proptypes of WrappedComponent are
+// `{ name: string, router: r.SingletonRouter }`, instead of assuming that
+// the `router` prop is injected.
+const WrappedComponent = r.withRouter<{ name: string }>(UnwrappedComponent);
+<WrappedComponent name="foo" />
+
+@r.withRouter
+class DecoratedComponent extends React.Component<{ name: string, router: r.SingletonRouter }> {
+    // TODO: A decorated component *must* declare that it returns React.ReactNode here, otherwise
+    // the typings from the decoration are incompatible.
+    render(): React.ReactNode {
+        return <div data-router={this.props.router} id={this.props.name} />
+    }
+}
+
+// TODO: the prop types on the decorated component only work if you pass
+// a router along with it (since I can't seem to provide casting to withRouter
+// in the same way we can with WrappedComponent)
+<DecoratedComponent name="foo" router={Router} />
