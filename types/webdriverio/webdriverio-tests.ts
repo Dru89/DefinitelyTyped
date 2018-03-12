@@ -26,7 +26,7 @@ describe.only("my webdriverio tests", () => {
     let client: webdriverio.Client<void>;
 
     before(async () => {
-        client = webdriverio.remote({ desiredCapabilities: { browserName: "phantomjs" } });
+        client = webdriverio.remote({ deprecationWarnings: true, desiredCapabilities: { browserName: "phantomjs" } });
         await client.init();
     });
 
@@ -99,7 +99,7 @@ webdriverio
     .init()
     .url("https://news.ycombinator.com/")
     .selectorExecute("//div", (inputs: HTMLElement[], message: string) => {
-        return inputs.length + " " + message;
+        return `${inputs.length} ${message}`;
     }, "divs on the page")
     .then((res: string) => {
         console.log(res);

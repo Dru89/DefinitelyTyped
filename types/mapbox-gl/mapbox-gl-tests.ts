@@ -303,16 +303,6 @@ var mapStyle = {
 	]
 };
 
-map = new mapboxgl.Map({
-	container: 'map',
-	minZoom: 14,
-	zoom: 17,
-	center: [-122.514426, 37.562984],
-	bearing: -96,
-	style: videoStyle,
-	hash: false
-});
-
 /**
  * Add video
  */
@@ -362,11 +352,24 @@ map = new mapboxgl.Map({
 	hash: false
 });
 
+map = new mapboxgl.Map({
+	container: 'map',
+	minZoom: 14,
+	zoom: 17,
+	center: [-122.514426, 37.562984],
+	bearing: -96,
+	style: videoStyle,
+	hash: false
+});
+
 /**
  * Marker
  */
-let marker = new mapboxgl.Marker(null,{offset: [10, 0]})
+let marker = new mapboxgl.Marker(undefined, {offset: [10, 0]})
 	.setLngLat([-50,50])
 	.addTo(map);
 
 marker.remove();
+let bool:boolean
+let bounds = new mapboxgl.LngLatBounds()
+bool = bounds.isEmpty()

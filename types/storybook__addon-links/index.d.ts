@@ -1,16 +1,14 @@
-// Type definitions for @storybook/addon-links 3.0
+// Type definitions for @storybook/addon-links 3.3
 // Project: https://github.com/storybooks/storybook
-// Definitions by: Joscha Feth <https://github.com/joscha>
+// Definitions by: Joscha Feth <https://github.com/joscha>,
+//                 Jesse Pinho <https://github.com/jessepinho>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
+// TypeScript Version: 2.6
 
-// TODO: Once TS2.3 is released,
-// https://github.com/Microsoft/TypeScript/issues/14819 should be fixed.
-// Then, upgrade this package's typescript version to 2.3 and
-// Remove the `declare module` wrapper.
-// tslint:disable-next-line no-single-declare-module
-declare module '@storybook/addon-links' {
-    import * as React from 'react';
+import * as React from 'react';
 
-    function linkTo<T>(book: string, kind?: string): React.MouseEventHandler<T>;
-}
+export type LinkToFunction = (...args: any[]) => string;
+
+export function linkTo<T>(book: string | LinkToFunction, kind?: string | LinkToFunction): React.MouseEventHandler<T>;
+
+export function hrefTo(kind: string, story: string): Promise<string>;
